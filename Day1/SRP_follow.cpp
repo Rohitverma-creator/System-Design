@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-// Product class  representing items of any E commerce
-
 class Product
 {
 public:
@@ -14,21 +12,22 @@ public:
         this->price = price;
     }
 };
-
 class ShoppingCart
 {
+
     vector<Product *> products;
 
 public:
     void addProduct(Product *p)
     {
+       
         products.push_back(p);
     }
-    const vector<Product *> &getProducts()
+    const vector<Product *> getProducts()
     {
         return products;
     }
-    double calculateTotal()
+    double calculateTotals()
     {
         double total = 0;
         for (auto p : products)
@@ -38,52 +37,38 @@ public:
         return total;
     }
 };
-
-class ShoppingCartPrinter
-{
+class ShoppingCartPrinter{
 private:
-    ShoppingCart *cart;
-
+ShoppingCart*cart;
 public:
-    ShoppingCartPrinter(ShoppingCart *cart)
-    {
-        this->cart = cart;
+ShoppingCartPrinter(ShoppingCart *cart){
+    this->cart=cart;
+}
+
+void printInvoice(){
+    for(auto p:cart->getProducts()){
+         cout << p->name << " : $" << p->price << endl;
     }
-
-    void printInvoice()
-    {
-        cout << "Shopping Cart Invoice" << endl;
-
-        for (auto p : cart->getProducts())
-        {
-            cout << p->name << " : $" << p->price << endl;
-        }
-
-        cout << "Total : $" << cart->calculateTotal() << endl;
-    }
+    cout<<"Total Price"<<cart->calculateTotals();
+}
 };
-
-class ShoppingCartStorage
-{
-private:
-    ShoppingCart *cart;
-
-public:
-    ShoppingCartStorage(ShoppingCart *cart)
-    {
-        this->cart = cart;
+class ShoppingCartStorage{
+    private:
+    ShoppingCart*cart;
+    public:
+    ShoppingCartStorage(ShoppingCart*cart){
+        this->cart=cart;
     }
-    void saveToDatabase()
-    {
-        cout << "Saving shopping cart to database...." << endl;
+    void saveToDatabase(){
+        cout<<"Save To Database";
     }
+
 };
 int main()
 {
-    ShoppingCart *cart = new ShoppingCart();
-    cart->addProduct(new Product("Laptop", 1500));
-    cart->addProduct(new Product("Mouse", 50));
-
+   ShoppingCart*cart=new ShoppingCart();
+   cart->addProduct(new Product("Laptop",16590));
+   cart->addProduct(new Product("Mobile",5985));
     ShoppingCartPrinter *printer = new ShoppingCartPrinter(cart);
     printer->printInvoice();
     ShoppingCartStorage *db = new ShoppingCartStorage(cart);
